@@ -1,0 +1,29 @@
+factorthis = 600851475143
+listoffactors = []
+
+def isprime(x):
+    for y in range(2, x - 1):
+        if x % y == 0:
+            return False
+        return True
+
+z = 2
+lastfactor = 2
+while z < factorthis:
+    if factorthis % z == 0:
+        factorthis = factorthis / z
+        listoffactors.append(z)
+        lastfactor = z
+        if lastfactor == z:
+            listoffactors.append(factorthis)
+        continue
+    else:
+        z += 1
+
+for j in listoffactors:
+    if isprime(j):
+        highestprime = j
+    else:
+        continue
+
+print(highestprime)
