@@ -1,7 +1,7 @@
 # Again not trying to be efficient
 notdone = True
 primes = []
-number = 2
+number = 0
 primetofind = 10001
 
 while notdone:
