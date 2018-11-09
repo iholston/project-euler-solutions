@@ -1,0 +1,13 @@
+notdone = True
+spn = 20
+
+while notdone:
+    for x in range(19, 2, -1): # don't need 2 or 1
+        if spn % x == 0:
+            continue
+        else:
+            break
+        notdone = False
+    spn += 20
+    
+print(spn - 20) # minus twenty because last increment in while loop
