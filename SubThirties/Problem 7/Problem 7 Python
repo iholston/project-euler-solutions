@@ -1,7 +1,7 @@
 # Again not trying to be efficient
 notdone = True
 primes = []
-number = 0
+number = 1
 primetofind = 10001
 
 while notdone:
@@ -14,7 +14,7 @@ while notdone:
                 break
             continue
     number += 1 
-    if len(primes) == primetofind:
+    if len(primes) == primetofind - 1:
         notdone = False
 
-print(primes[primetofind - 1])
+print(primes[primetofind - 2])
