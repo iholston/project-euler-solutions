@@ -1,3 +1,35 @@
+# The first method I was using is commented out below. I think it would work but it was taking literal hours
+# for the computer to try and calculate lol so I looked up proper algorithms for finding primes and the first
+# one was the sieve of eratosthenes which was super cool so thats what this uses
+
+primelimit = 2000000 # Number you want sum of primes up to
+primelist = []
+sumprimes = 0 
+
+for i in range(0, primelimit):
+    primelist.append(True)
+
+# the mathmatical logic here comes from the sieve of eratosthenes
+# its simple but cool
+for i in range(2, int(primelimit**(.5))): 
+    if primelist[i] == True:
+        for j in range(int(primelimit/i - 1)): # The minus 1 here removes the prime
+            if i*i+j*i > primelimit - 1:
+                break
+            else:
+                primelist[i*i+j*i] = False
+            
+for i, primebool in enumerate(primelist):
+    if primebool == True:
+        sumprimes += i
+        
+print(sumprimes - 1) # Minus 1 because its not a prime but it was added
+
+'''
+# This might work idk lol 
+# I knew this was super bad but I was trying to solve the problem without checking any outside source
+# I think I would have found a working (sub 1 hour) way of doing things but I checked for algorithms
+# in my rage and found sieve of eratosthenes...
 notdone = True
 number = 1
 primesum = 0
@@ -16,3 +48,4 @@ while notdone:
             continue
 
 print(primesum)
+'''
