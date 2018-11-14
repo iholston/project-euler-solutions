@@ -1,0 +1,58 @@
+x = input()
+ttgrid = []
+
+# Massaging the data because i had to input as big string
+for i in range(1200):
+    if i % 3 == 0:
+        ttgrid.append(x[i:(i+2)])
+
+# This math is based on my long array of all 400 numbers
+largestproduct = 0
+k = -20
+# left/right direction
+for i in range (400):
+    cp = 1
+    if i % 19 == 0:
+        k+=20
+        print(k)
+    if i == k + 17 or i == k + 18 or i == k + 19:
+        continue
+    for j in range(4):
+        cp = cp * int(ttgrid[i + j])
+    if cp > largestproduct:
+        largestproduct = cp
+
+# up/down direction
+for i in range(400):
+    cp = 1
+    if i < 340:
+        for j in range(4):
+            cp = cp * int(ttgrid[i + j*20])
+        if cp > largestproduct:
+            largestproduct = cp
+    else:
+        break
+    
+# top left to bottom right diagonal direction
+for i in range(400):
+    cp = 1
+    if i % 17 == 0 or i % 18 == 0 or i % 19 == 0:
+        continue
+    else:
+        for j in range(4):
+            cp = cp * int(ttgrid[i + j*20 + j])
+        if cp > largestproduct:
+            largestproduct = cp
+
+# bottom right to top left diagonal direction
+for i in range(400):
+    cp = 1
+    if i < 80:
+        continue
+    else:
+        for j in range(4):
+            cp = cp * int(ttgrid[i - j*20 - j])
+        if cp > largestproduct:
+            largestproduct = cp
+
+print(largestproduct)
