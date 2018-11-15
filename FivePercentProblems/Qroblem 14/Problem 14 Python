@@ -1,0 +1,17 @@
+# Easy af
+longestchain = 0
+longestchainnum = 0
+for i in range(13, 1000000):
+    chain = 0
+    num = i
+    while i != 1:
+        if i % 2 == 0:
+            i = i / 2
+        else:
+            i = 3 * i + 1
+        chain += 1
+    if chain > longestchain:
+        longestchain = chain
+        longestchainnum = num
+        
+print(longestchainnum)
