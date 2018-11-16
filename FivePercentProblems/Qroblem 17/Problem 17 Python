@@ -1,0 +1,55 @@
+# This one was fun. Left the print statements in cuz im lazy. To just get the answer remove all print statements. I needed
+# them to see what it was actually counting. Could probably have made it look much prettier but its too tedious.
+
+# I put the filler in becuase then you can work directly with the numbers you are talking about in the array
+letters = ['filler','one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+letters2 = ['filler', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
+letters3 = ['filler', 'filler', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+letters4 = ['filler', 'hundred', 'thousand', 'and']
+
+sumofletters = 0
+for i in range(1001):
+    if i == 0: # skip zero cuz we have 'filler'
+        continue
+    if i == 1000: # special case cuz it only appears one time
+        sumofletters += len(letters[1])
+        sumofletters += len(letters4[2])
+        print(str(letters[1]) + ' ' + str(letters4[2]))
+        continue
+    if i < 100 and i % 10 == 0: # all sub hundred multiple of tens -> letters3
+        if i == 10: # special case due to ten being in teen group. (Last special case)
+            sumofletters += len(letters2[1])
+            print(letters2[1])
+            continue
+        sumofletters += len(letters3[i / 10])
+        print(letters3[i/10])
+        continue
+    if i % 100 == 0 and i < 1000: # all multiples of 100 -> letters 4
+        sumofletters += len(letters[int(i/100)])
+        sumofletters += len(letters4[1])
+        print(str(letters[i/100]) + ' ' + str(letters4[1]))
+        continue
+    if i > 100: # all numbers greater than 100 have the "x hundred and" syntax
+        sumofletters += len(letters[int(i / 100)])
+        sumofletters += len(letters4[1])
+        sumofletters += len(letters4[3])
+        print(str(letters[int(i/100)]) + ' ' + str(letters4[1]) + ' ' + str(letters4[3]))
+    
+    i = i % 100 # prints out from 1 - 99 over and over no matter what hundreds multiplier comes before it.
+    if i < 10:
+        sumofletters += len(letters[i%10])
+        print(letters[i%10])
+        continue
+    elif i < 20:
+        sumofletters += len(letters2[i % 10 + 1])
+        print(letters2[i % 10 + 1])
+        continue
+    elif i % 10 == 0:
+        sumofletters += len(letters3[i / 10])
+        print(letters3[i/10])
+        continue
+    sumofletters += len(letters3[int(i / 10)]) 
+    sumofletters += len(letters[i % 10])
+    print(str(letters3[int(i/10)]) + ' ' + str(letters[i%10]))
+    
+print(sumofletters)
