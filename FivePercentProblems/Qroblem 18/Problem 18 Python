@@ -1,0 +1,15 @@
+# Setup
+x = input().split(' ')
+triangle = []
+
+# Massage the data. Make each list in triangle a row from triangle
+add2 = 0
+for i in range(15): # 15 rows
+    add = 0 # The index that starts a new row in tri
+    add2 += 1 # How many elements in that row
+    for j in range(i):
+        add += j
+    add += i
+    triangle.append(x[add: add + add2]) # start at row index and then add number of elements in that row. Pretty simple.
+    
+print(triangle)
