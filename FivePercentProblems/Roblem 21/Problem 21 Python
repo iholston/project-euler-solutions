@@ -42,13 +42,13 @@ for i in range(2, int(numbersunder**(.5))):
 
       else:
 
-      primelist[i*i+j*i] = False
+        primelist[i*i+j*i] = False
 
 for i, primebool in enumerate(primelist):
 
   if i == 0:
 
-    continue:
+    continue
 
   if primebool == True:
 
