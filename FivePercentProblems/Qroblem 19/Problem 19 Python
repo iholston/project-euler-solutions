@@ -1,0 +1,36 @@
+# this one was fun, caused me to actually have to think
+
+# setup
+sundays = [False for i in range(36525)]
+firsts = [False for i in range(36525)]
+months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+# find sundays
+skip = 1 # cuz first day starts on a tuesday
+for i in range(36525):
+    skip += 1
+    if skip % 7 == 0:
+        sundays[i] = True
+
+# find firsts
+monthcounter = 0
+monthtotal = months[monthcounter]
+leapcounter = 0
+for i in range(36525):
+    if i == monthtotal + 1:
+        firsts[i] = True
+        monthcounter += 1
+        if monthcounter == 12:
+            monthcounter = 0
+        if monthcounter == 1:
+            leapcounter += 1
+            if leapcounter == 4:
+                monthtotal += 1
+                leapcounter = 0
+        monthtotal += months[monthcounter]
+    
+# find double truths and add
+total = 0
+for i in range(36525):
+    if sundays[i] == True and firsts[i] == True:
+        total += 1
+print(total)
