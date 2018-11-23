@@ -1,0 +1,13 @@
+test2 = 3000
+trianglenums = [1]
+for i in range(2, test2):
+    trianglenums.append(trianglenums[i - 2] + i)
+
+for num in trianglenums:
+    numdivisors = 2 # 1 and the number itself
+    for i in range(2, int(num/2 + 1)): # the +1 is to make sure it gets the num/2
+        if num % i == 0:
+            numdivisors += 1
+    if numdivisors >= 500:
+        print(num)
+        break
