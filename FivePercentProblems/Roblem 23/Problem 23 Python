@@ -1,3 +1,6 @@
+# Again, copied code over from editor "by hand" rather than copy paste so their may be some syntax stuff but
+# it works once that is cleared up
+
 # Setup
 print("Initializing...")
 find2 = 28123
@@ -50,12 +53,14 @@ print("\nFinal Answer:")
 print(sum(biglist))
 
 
-###########################################################
-###########################################################
-# This i think would work but it takes FOREVER. To the 
-# point that the online editor I was using at 
-# https://repl.it/languages/python3 would timeout before
-# ever completing it. So not entirely sure it works.
+############################################################
+############################################################
+# This i think would work but it takes FOREVER. To the     #
+# point that the online editor I was using at              #
+# https://repl.it/languages/python3 would timeout before   #
+# ever completing it. So not entirely sure it works.       #
+############################################################
+'''
 # Setup
 find2 = 28123
 biglist = [i for i in range(find2)]
@@ -79,5 +84,6 @@ for i in range(len(abundants)):
       biglist[biglist.index(abundants[i] + abundants[j])] = 0
 
 print(sum(biglist))
-#############################################################
-#############################################################
+'''
+##############################################################
+##############################################################
