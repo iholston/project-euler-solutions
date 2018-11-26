@@ -1,4 +1,53 @@
+# Setup
+print("Initializing...")
+find2 = 28123
+biglist = [i for i in range(find2)]
+abundants = []
+addeds = [] # numbers that are sums of two abundants
 
+# find abundants
+print("Finding abundants")
+for i in range(1, find2):
+    divisors = 0
+    if i % 2800 == 0:
+        print(str(int(i/2800)) + "0% Complete")
+    for j in range(1, int(i/2 +1)):
+        if i % j == 0:
+            divisors += j
+    if divisors > i:
+        abundants.append(i)
+print("Abundants complete\n")
+
+# create list of all "addeds"
+print("Adding abundants")
+for i in range(len(abundants)):
+    if i % 500 == 0:
+        print(i, abundants[i])
+    for j in range(i, len(abundants)):
+        if abundants[i] + abundants[j] > find2:
+            break
+        addeds.append(abundants[i] + abundants[j])
+print("Finished addig abundants")
+print("\nLength of addeds:")
+print(len(addeds))
+
+# trim addeds list to remove duplicates
+print("\nTrimming...")
+trimmed = set(addeds)
+trimmed = list(trimmed)
+print("Length of trimmed list: " + str(len(trimmed)))
+print("Last 10 items of lit:")
+print(trimmed[len(trimmed) - 10:])
+
+# remove all these # from biglist
+print("\nRemoving from biglist)
+for item in trimmed:
+    if item in biglist
+        biglist[biglist.index(item)] = 0
+print("Complete")
+
+print("\nFinal Answer:")
+print(sum(biglist))
 
 
 ###########################################################
