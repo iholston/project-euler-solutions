@@ -1,0 +1,34 @@
+
+
+
+###########################################################
+###########################################################
+# This i think would work but it takes FOREVER. To the 
+# point that the online editor I was using at 
+# https://repl.it/languages/python3 would timeout before
+# ever completing it. So not entirely sure it works.
+# Setup
+find2 = 28123
+biglist = [i for i in range(find2)]
+abundants = []
+
+# find abundants
+for i in range(1, find2):
+  divisors = 0
+  for j in range(1, int(i/2 + 1)):
+    if i % j == 0:
+      divisors += j
+  if divisors > i:
+    abundants.append(i)
+
+# removing abundants and possibilites from list
+for i in range(len(abundants)):
+  for j in range(i, len(abundants)):
+    if abundants[i] + abundants[j] > find2:
+      break
+    if abundants[i] + abundants[j] in biglist:
+      biglist[biglist.index(abundants[i] + abundants[j])] = 0
+
+print(sum(biglist))
+#############################################################
+#############################################################
