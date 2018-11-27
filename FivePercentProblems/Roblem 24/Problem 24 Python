@@ -1,0 +1,22 @@
+# This one I did not come up with by myself as I have done for most problems
+# I used https://www.geeksforgeeks.org/generate-all-the-permutation-of-a-list-in-python/
+# which is cheating but I could not figure it out myself (though I did not try too hard)
+# just lazy on this problem.
+
+def permutations(liist):
+    final = []
+    if len(liist) == 0:
+        return final
+    if len(liist) == 1:
+        return liist
+    for i in range(len(liist)):
+        g = liist[i]
+        newlist = liist[:i] + liist[i+1:]
+        for perm in permutations(newlist):
+            final.append([g] + [perm])
+    return final
+
+perm = [i for i in range(10)]
+permed = permutations(perm)
+permed.sort()
+print(permed[1000000-1])
