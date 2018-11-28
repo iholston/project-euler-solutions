@@ -1,3 +1,8 @@
+# Did not complete. Just looked at the numbers
+# Plan for problem 67 is to find the maxes of each line and build
+# heaviest line of the maxes only (ie this line includes 67 maxes)
+# and try and build lines off the weightiest lines first idk
+
 # Setup
 x = input().split(' ')
 triangle = []
