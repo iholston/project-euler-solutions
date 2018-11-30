@@ -1,3 +1,3 @@
 # Project-Euler-Solutions
 My solutions to the project euler problems.
-The folders are referencing problem difficulty.
+Switches between Python and Golang every 25 problems.
