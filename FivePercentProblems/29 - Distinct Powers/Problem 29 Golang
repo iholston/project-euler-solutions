@@ -18,6 +18,7 @@ func main() {
         }
     }
     // Step 2: Set duplicates to ""
+    skip := 0
     for _, val := range sq {
         for j, val2 := range sq {
             if val == val2 {
