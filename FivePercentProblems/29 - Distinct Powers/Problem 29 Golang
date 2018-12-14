@@ -1,1 +1,41 @@
-s
+// simple with the big package
+
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Setup
+    sq := []string{}
+    var x big.Int
+    // Step 1: Build out array of answers
+    for i := 2; i <= 100; i++ {
+        for j := 2; j <= 100; j++ {
+            sq = append(sq, x.Exp(big.NewInt(int64(i)), big.NewInt(int64(j)), nil).String())
+        }
+    }
+    // Step 2: Set duplicates to ""
+    for _, val := range sq {
+        for j, val2 := range sq {
+            if val == val2 {
+                skip += 1
+                if skip > 1 {
+                    sq[j] = ""
+                }
+            }
+        }
+        skip = 0
+    }
+    // Step 3: Count "" and print final answer
+    counter := 0
+    for _, val := range sq {
+        if val == "" {
+            counter += 1
+        }
+    }
+    
+    fmt.Println(len(sq) - counter)
+}
