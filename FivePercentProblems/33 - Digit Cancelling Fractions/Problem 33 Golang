@@ -1,0 +1,67 @@
+// Pretty easy. Could probably clean this up to be only a few lines but this is directly what came off my brain.
+
+package main
+
+import ("fmt"
+        "strconv"
+        "strings"
+        )
+
+func check(a int, b int) bool {
+    if a/b == 1 {
+        return false
+    }
+    decimal := float64(a)/float64(b)
+    otherd := float64(0)
+    num := strconv.Itoa(a)
+    den := strconv.Itoa(b)
+    numes := strings.Split(num, "")
+    denos := strings.Split(den, "")
+    sone := numes[0]
+    stwo := numes[1]
+    sthree := denos[0]
+    sfour := denos[1]
+    ione, _ := strconv.Atoi(sone)
+    itwo, _ := strconv.Atoi(stwo)
+    ithree, _ := strconv.Atoi(sthree)
+    ifour, _ := strconv.Atoi(sfour)
+    if ione != ithree && ione != ifour {
+        if itwo != ithree && itwo != ifour {
+            return false
+        }
+    }
+    one := float64(ione)
+    four := float64(ifour)
+    if itwo == ithree {
+        otherd = one / four
+    }
+    if decimal == otherd {
+        return true
+    }
+    return false
+}
+
+func main() {
+    list := []int{}
+    for nume := 11; nume < 100; nume++ {
+        if nume % 10 == 0 {
+            continue
+        }
+        for denom := 11; denom < 100; denom++ {
+            if check(nume, denom) {
+                list = append(list, nume)
+                list = append(list, denom)
+            }   
+        }
+    }
+    numerator := 1
+    denominator := 1
+    for a, val := range list {
+        if a % 2 == 0 {
+            numerator = numerator * val
+            continue
+        }
+        denominator = denominator * val
+    }
+    fmt.Println(numerator, denominator, float64(numerator)/float64(denominator))
+}
