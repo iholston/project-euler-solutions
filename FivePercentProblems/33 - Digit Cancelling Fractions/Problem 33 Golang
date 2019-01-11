@@ -1,4 +1,6 @@
+
 // Pretty easy. Could probably clean this up to be only a few lines but this is directly what came off my brain.
+// Doesn't actually print the answer directly. Just the numerator and denominator. You can reduce yourself.
 
 package main
 
