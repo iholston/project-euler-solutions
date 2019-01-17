@@ -27,7 +27,7 @@ func sOE(stop int) []int {
             continue
         }
         if val == true {
-            prime = append(primes, i)
+            primes = append(primes, i)
         }
     }
     return primes
