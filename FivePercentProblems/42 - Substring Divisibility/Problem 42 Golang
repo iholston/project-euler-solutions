@@ -1,4 +1,6 @@
+
 // fun, and had to learn new algorithm. Heaps algo for generating permutations.
+// 5.996123249s
 package main
 import ("fmt"
         "strings"
