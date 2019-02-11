@@ -1,0 +1,29 @@
+// 101.091481ms
+package main
+import "fmt"
+
+func generate(x int) (map[int]bool, map[int]bool) {
+  m := make(map[int]bool)
+  n := make(map[int]bool)
+  for i := 1; i <= x; i++ {
+    perm := (i*(3*i-1))/2
+    hex := i*(2*i-1)
+    m[perm] = true
+    n[hex] = true
+  }
+  return m, n
+}
+
+func main() {
+  x := 100000
+  permMap, hexMap := generate(x)
+  for i := 2; i <= x; i++ { // cuz the first of all of em is 1
+    triNum := (i*(i+1))/2
+    if triNum == 40755 {continue} // because they already gave us this. INTEREST: the code here is what i originally started with but
+    // if i start the for loop at 286 instead of 2 and remove line 22 the program actually takes longer (135.863913ms). ???? 
+    if permMap[triNum] && hexMap[triNum] {
+      fmt.Println(triNum)
+      break
+    }
+  }
+}
