@@ -1,0 +1,30 @@
+// easy, maybe a faster solution though that is not "easy"
+// 1.981153326s
+package main
+import "fmt"
+import "math"
+func findsols(perimeter int) int {
+  solutions := 0
+  for i := 1; i < perimeter; i++ {
+    for j := 1; j < perimeter; j++ {
+      c := int(math.Sqrt(float64(i*i + j*j)))
+      if i + j + c == perimeter && i*i + j*j == c*c {
+        solutions++
+      }
+    }
+  }
+  return solutions/2
+}
+
+func main() {
+  currentmax := 0
+  maxperimeter := 0
+  for i := 5; i <= 1000; i++ {
+    numsolutions := findsols(i)
+    if numsolutions > currentmax {
+      currentmax = numsolutions
+      maxperimeter = i
+    }
+  }
+  fmt.Println(maxperimeter)
+}
