@@ -58,7 +58,7 @@ func pandigital(a int) bool {
   numbers := [9]string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
   bigstring := strconv.Itoa(a)
   for i, numb := range numbers {
-    if strings.Count(bigstring, num) != 1 {
+    if strings.Count(bigstring, numb) != 1 {
       if len(bigstring) == i {
         return true
       }
