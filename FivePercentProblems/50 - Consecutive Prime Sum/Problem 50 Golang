@@ -1,0 +1,6 @@
+// 128.572158ms
+// This tries starting after 1-5st primes because starting at 1 produces 500+ consecutive prime contender
+// with this in mind you can only start so high up (probably within the first 20 primes) before you break the sub 1mil rule
+package main
+import "fmt"
+func generate() 
