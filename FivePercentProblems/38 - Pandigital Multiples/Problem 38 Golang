@@ -1,0 +1,45 @@
+// 4.594886ms
+// easy
+package main
+import("fmt"
+       "strconv"
+       "strings"
+)
+
+func pandigital(num string) bool {
+  numbers := [9]string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+  for _, numb := range numbers {
+    if strings.Count(num, numb) != 1 {
+      return false
+    }
+  }
+  return true
+}
+
+func main() {
+  maxsofar := 0
+  wrong := 1 // random way of determining whether to proceed with the number coming out of the j loop. if 1 use if 2 no
+  for i := 1; i < 10000; i++ { // the largest # you can have to make 9 digit # is 4 digits long.
+    pandidg := ""
+    for j := 1; j < 100; j++ { // the 100 was arbitrary guess, could definately be lower. cant be higher because # of digits is too high
+      pandidg += strconv.Itoa(i*j)
+      if len(pandidg) == 9 {
+        break
+      } else if len(pandidg) > 9 {
+        wrong = 2
+        break
+      }
+    }
+    if wrong == 2 {
+      wrong = 1
+      continue
+    }
+    if pandigital(pandidg) {
+      num, _ := strconv.Atoi(pandidg)
+      if num > maxsofar {
+        maxsofar = num
+      }
+    }
+  }
+  fmt.Println(maxsofar)
+}
