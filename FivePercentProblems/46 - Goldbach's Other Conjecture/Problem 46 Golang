@@ -1,0 +1,56 @@
+// 12.033921ms
+// easy
+package main
+import "fmt"
+import "math"
+
+func generate(stop int) []int {
+    primelist := []bool{}
+    primes := []int{}
+    for i := 0; i < stop; i++ {
+        primelist = append(primelist, true)
+    }
+    for i := 2; i < int(math.Ceil(math.Sqrt(float64(stop)))); i++ { // research seive. Only need up to sqrt
+        if primelist[i] == true {
+            for j := 0; j <= stop; j++ {
+                if i*i + j*i > stop - 1 {
+                    break
+                } else {
+                    primelist[i*i + j*i] = false
+                }
+            }
+        }
+    }
+    for i, val := range primelist {
+        if i == 0 || i == 1 {
+            continue
+        }
+        if val == true {
+            primes = append(primes, i)
+        }
+    }
+    return primes
+}
+
+func test(x int, primes []int) bool {
+  for _, prime := range primes {
+    if prime == x {return false} // if prime obviously not it
+    if prime > x {return true} // if we have tried all primes below the number without success then thats the one
+    for i := 1; i < 1000; i++ {
+      if prime + 2*i*i > x {break} // i too high go next
+      if prime + 2*i*i == x {return false} // we created the number
+    }
+  }
+  return true
+}
+
+func main() {
+  primes := generate(10000)
+  for i := 33; i < 10000; i++ {
+    if i%2 == 0 {continue}
+    if test(i, primes) {
+      fmt.Println(i)
+      break
+    }
+  }
+}
