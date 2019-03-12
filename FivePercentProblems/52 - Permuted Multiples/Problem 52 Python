@@ -1,0 +1,7 @@
+# switched back to python after completeing problem 50 (skipped 51 for a quick second) and its so easy LOL
+# 3.62 seconds
+# there is probably some nicer way to write that if statement like: for y in range(1,7) and use y idk though
+for x in range(100,1000000):
+  if sorted(list(str(x))) == sorted(list(str(2*x))) == sorted(list(str(3*x))) == sorted(list(str(4*x))) == sorted(list(str(5*x))) == sorted(list(str(6*x))):
+    print(x)
+    break
