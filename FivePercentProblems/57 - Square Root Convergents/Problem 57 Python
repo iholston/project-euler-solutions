@@ -19,8 +19,8 @@ while True:
       primecounter += 1
   dias += 1
   diacounter += 1
-  if diacounter == 4:
-    skipper += 2
+  if diacounter == 4: # everything in here is based off the spiral pattern, it creates the diagonals
+    skipper += 2 
     number += skipper 
     diacounter = 0
     if primecounter/dias < .1
