@@ -2,9 +2,10 @@
 # after trying bad solution 2 i realized i had to reduce the inputs from a billion
 # the original bad solution was trying from 1 up to 1 billion and checking if the squares met the
 # requirements which took forever as well so i stopped the program and then i found the ending had to be 70 
-# and then tried 1XXXXXXX70 starting from one which is this code. This too 50 seconds and i still had to reduce. 
-# which how i originally solved the problem. after seeing the right answer and trying to reduce the 50 seconds. I got up walked around
-# and had the epiphany of starting at the max possible sqrt(the num filled with 9s) and go down and wrote the main solution
+# and then tried 1XXXXXXX70 starting from one which is this code. This took 50 seconds and i really did not like that, 
+# but it is how i originally solved the problem. after seeing the right answer and trying to reduce the 50 seconds, I got up 
+# walked around and had the epiphany of starting at the max possible sqrt(the num filled with 9s) and go down and wrote the main solution
+# which barely hit 1 ms
 
 def createnum(num):
   strnum = "1"
