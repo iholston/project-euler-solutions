@@ -1,2 +1,33 @@
 # .952 ms
-# 1)the square root of 1929394959697989990 is 1389026623.1062636 
+# 1) the square root of 1929394959697989990 (largest possible #) is ~1389026624 which means we can start here and go down
+# 2) Doing a quick doodle, i noted that all numbers must end in 70 in order to get a 0 at then end
+# with this in mind i created numbers 1XXXXXXX70 and the XXXXXXX started at 389026 and decremented
+# as always i did this without looking for any help whatsoever, iv included my other horrifically solutions in this folder
+
+# creates the 1XXXXXXX70 number
+def createnum(num):
+  strnum = "1"
+  for i in range(7 - len(str(num))):
+    strnum += 0
+  strnum += str(num) + "70"
+  return int(strnum)
+
+def check(num):
+  checker = 1
+  for i in range(0, 19, 2):
+    if checker == 10:
+      if str(num)[i] = str(0)
+        return True
+      if str(num)[i] == str(checker):
+        checker += 1
+        continue
+      else:
+        return False
+
+tries = 3890266 # talked about this starting point earlier
+while True:
+  num = createnum(tries)
+  if check(num*num):
+    print(num)
+    break
+  tries = tries - 1
