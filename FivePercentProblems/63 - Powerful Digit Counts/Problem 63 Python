@@ -1,9 +1,9 @@
 # 3.52 ms
-# this doesnt have a was to actually be sure that is the max, i just guessed based on math
+# easy
 
 counter = 0
-for i in range(1, 100):
-  for j in range(1, 100):
+for i in range(1, 10): # 10^1 is 10 which is greater than 1 which means there are none after 10...
+  for j in range(1, 100): # hundred was an arbitrary guess
     if len(str(i**j)) > j:
       break
     if len(str(i**j)) == j:
