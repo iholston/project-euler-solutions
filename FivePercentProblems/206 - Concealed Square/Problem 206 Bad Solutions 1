@@ -1,4 +1,4 @@
-# takes ~ 50 seconds
+# takes ~55 seconds
 # after trying bad solution 2 i realized i had to reduce the inputs from a billion
 # the original bad solution was trying from 1 up to 1 billion and checking if the squares met the
 # requirements which took forever as well so i stopped the program and then i found the ending had to be 70 
