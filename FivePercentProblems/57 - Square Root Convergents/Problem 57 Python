@@ -1,0 +1,30 @@
+# oof
+# the prime checking takes forever
+# averages 14 SECONDS. longest 16.14s shortest 10.12s (im using https://repl.it/@tranzfat/57) for all these
+import math
+def isprime(x):
+  for y in range(2, math.ceil(math.sqrt(x)) + 1):
+    if not (x%y):
+      return False
+  return True
+
+dias = 1 # Total number of diagonals 
+number = 3 # running number used to calculate diagonals
+skipper = 2 # used to increment number to get diagonal values
+diacounter = 0 # goes from 0 to 4 and is used to increment skipper
+primecounter = 0 # total number of primes 
+while True:
+  if number & 1 == 1 and diacounter != 3: # the problem tells us that that 4th diagonal is odd squares
+    if isprime(number):
+      primecounter += 1
+  dias += 1
+  diacounter += 1
+  if diacounter == 4:
+    skipper += 2
+    number += skipper 
+    diacounter = 0
+    if primecounter/dias < .1
+      break
+    continue
+  number += skipper
+print(int(2*((dias - 1)/4) + 1))
