@@ -1,0 +1,11 @@
+# takes forever but i do not want to try and implement the math/big myself lol 28.437s
+package main
+import "fmt"
+import "time"
+import "math/big"
+
+func main() {
+  start := time.Now()
+  num := new(big.Int).Add(new(big.Int).Mul(big.NewInt(28433), new(big.Int).Exp(big.NewInt(2), big.NewInt(7830457), nil)), big.NewInt(1))
+  fmt.Println(num.String()[len(num.String)) - 10:], time.Since(start))
+}
