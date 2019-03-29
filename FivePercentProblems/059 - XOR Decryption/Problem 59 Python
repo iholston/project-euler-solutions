@@ -1,0 +1,60 @@
+# this one was a lot of fun! getting the decrypted text was such a reward lol
+# 8.1333s not my fastest but probably a much faster algorithm to do this anyways so it dont matter
+
+import time, sys
+start = time.time()
+
+# got list of 1000 common english words from https://gist.github.com/deekayen/4148741
+words = []
+with open('words.txt','r') as j:
+    for line in j:
+        for word in line.split():
+            words.append(word)
+# open the file and convert it to a list of ints          
+f = open('asdf.txt', 'r')
+text = str(f.read())
+f.close()
+chars = text.replace(',', ' ').split()
+for i in range(len(chars)):
+    chars[i] = int(chars[i])
+
+# key handler starts with aaa and increments through the 17576 permutations                      
+ogkey = [97, 97, 96]
+def getkey():
+    ogkey[2] += 1
+    if ogkey[2] == 123:
+        ogkey[2] = 97
+        ogkey[1] += 1
+        if ogkey[1] == 123:
+            ogkey[0] += 1
+            ogkey[1] = 97
+    return ogkey
+
+# takes the thousand english words and checks the decrypted file for 50 of the 1000 words (50 here was arbitrary, i started with 100)
+def check(lst):
+    checker = 0
+    string = ''.join(chr(i) for i in lst).lower()
+    for word in words:
+        if word in string:
+            checker += 1
+    if checker >= 50:
+        return True
+    return False
+
+for z in range(17576): #17576 == 26^3
+    key = getkey()
+    j = 0
+    chars2 = []
+    for i in range(len(chars)):
+        chars2.append(int(bin(chars[i]), 2) ^ int(bin(key[j]), 2)) # the XOR
+        j += 1
+        if j == 3:
+            j = 0
+    if check(chars2):
+        total = 0
+        for char in chars2:
+            total += char
+        print(''.join(chr(i) for i in chars2)) 
+        print(total)
+        print(time.time()-start)
+        sys.exit
