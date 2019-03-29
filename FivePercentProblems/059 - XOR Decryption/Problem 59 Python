@@ -11,7 +11,7 @@ with open('words.txt','r') as j:
         for word in line.split():
             words.append(word)
 # open the file and convert it to a list of ints          
-f = open('asdf.txt', 'r')
+f = open('p059_cipher.txt', 'r')
 text = str(f.read())
 f.close()
 chars = text.replace(',', ' ').split()
