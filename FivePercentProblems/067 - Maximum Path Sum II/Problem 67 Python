@@ -1,0 +1,28 @@
+# got the algorithm explained from https://www.mathblog.dk/project-euler-18/
+# all of the code is my own.
+# superfast, i guess the hard part here was coming up with the algorithm
+# implementing the algorithm was super easy...
+# 2.992 ms
+
+# Open file and read in all lines as lists in a big triangle list
+import time
+start = time.time()
+triangle = []
+with open('p067_triangle.txt', 'r') as f:
+    for line in f:
+        triangle.append([int(x) for x in line.split()])
+
+# simply takes a list of length x as lower and a list of length x - 1 as higher
+# and returns one single line of length x - 1 that is the max sum between
+# the mini triangle you would make for each num in higher
+def masterline(lower, higher):
+    final = []
+    for i in range(len(higher)):
+        a = lower[i] + higher[i]
+        b = lower[i+1] + higher[i]
+        final.append(a if a > b else b)
+    return final
+
+for i in reversed(range(1, len(triangle))):
+    triangle[i-1] = masterline(triangle[i], triangle[i-1])
+print(triangle[0], time.time() - start) 
