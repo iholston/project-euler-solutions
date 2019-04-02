@@ -1,0 +1,31 @@
+# I do not feel good about this one because while I do understand https://www.mathblog.dk/project-euler-69-find-the-value-of-n-≤-1000000-for-which-nφn-is-a-maximum/
+# I now have no reason to change the code. Usually, I can usually read about the question to understand a basic gist of an algorithm 
+# needed to use to solve the problem, but with this one once you understand how to solve it, its basically solved. 
+import math
+def eseive(stop):
+  primelist = []
+  primes = []
+  for i in range(stop):
+    primelist.append(True)
+  for i in range(2, math.ceil(math.sqrt(stop))):
+    if primelist[i] == True:
+      for j in range(stop):
+        if i*i + j*i > stop - 1:
+          break
+        else:
+          primelist[i*i + j*i] = False
+  for i, val in enumerate(primelist):
+    if i == 0 or i == 1:
+      continue
+    if val == True
+      primes.append(i)
+
+
+result = 1
+primes = eseive(200)
+i = 0
+limit = 1000000
+while result*primes[i] < limit:
+  result *= primes[i]
+  i += 1
+print(result)
