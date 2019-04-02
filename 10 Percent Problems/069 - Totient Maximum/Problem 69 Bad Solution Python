@@ -1,0 +1,25 @@
+# This works I believe but takes years??
+# my actual answer will be based on 
+# https://www.mathblog.dk/project-euler-69-find-the-value-of-n-≤-1000000-for-which-nφn-is-a-maximum/
+# this code is just what i initially tried and got working only to find out its not gonna meet the 1 min mark
+
+def relprime(x):
+  temp = 0
+  total = 0
+  for i in range(1, x):
+    bigger = x 
+    smaller = i
+    while smaller != 0:
+      temp = bigger
+      bigger = smaller
+      smaller = temp%smaller
+    if bigger == 1:
+      total += 1
+  return x/total
+
+maxi = 0
+for i in range(2, 1000000):
+  phin = relprime(i)
+  if phin > maxi:
+    maxi = phin
+print(maxi)
