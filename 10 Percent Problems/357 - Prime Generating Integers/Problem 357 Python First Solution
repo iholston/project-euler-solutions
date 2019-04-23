@@ -1,0 +1,30 @@
+# This was my first solution, my original seive of e was wayy to slow so i got this of stack
+# This runs in 154.53s which is too slow to count in euler. but it worked.
+
+import time, math, numpy
+start = time.time()
+
+# got this from https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n
+def primesfrom3to(n):
+    """ Returns a array of primes, 3 <= p < n """
+    sieve = numpy.ones(n//2, dtype=numpy.bool)
+    for i in range(3,int(n**0.5)+1,2):
+        if sieve[i//2]:
+            sieve[i*i//2::i] = False
+    return [2] + list(2*numpy.nonzero(sieve)[0][1::]+1)
+
+primes = set(primesfrom3to(100000000))
+primelist = sorted(primes)
+total = 0
+count = -1
+for prime in primelist:
+  if prime > 100000000: break
+  num = prime - 1
+  notgonnawork = False
+  for i in range(2, int(math.sqrt(num)) + 1):
+    if num % i == 0:
+      if i + num/i not in primes or int(num/i) + num/(int(num/i)) not in primes:
+        notgonnawork = True
+        break
+  if not notgonnawork: total += num
+print(total, '\n', time.time() - start)
