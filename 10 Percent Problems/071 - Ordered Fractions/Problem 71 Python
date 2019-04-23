@@ -1,0 +1,36 @@
+# This was fun! I looked up the gcd function but i ddnt even think i would need it. Guess you do technically though
+# 1.96s
+
+import time
+start = time.time()
+
+# not mine. but super common
+def gcdFind(a, b):
+  while b:
+    a, b = b, a % b
+  return a
+# the rest is all mine
+
+currentchamp = 0
+cc1 = 0
+cc2 = 0
+for i in reversed(range(1, 1000001)): # start at the top cuz of the champ mechanic
+  for j in reversed(range(1, int(i * 3/7) + 1)): # start as close to 3/7 as possible so you only look at numbers > champ but < 3/7.
+    nume = j
+    denom = i
+    if nume/denom < currentchamp:
+      break
+    if nume/denom < 3/7: 
+        currentchamp = nume/denom
+        cc1 = nume
+        cc2 = denom
+        break
+while True:
+  gcd = gcdFind(cc1, cc2)
+  if gcd == 1:
+    break
+  else:
+    cc1 = cc1/gcd
+    cc2 = cc2/gcd
+print(str(int(cc1)) + "/" + str(int(cc2)))
+print(time.time() - start)
