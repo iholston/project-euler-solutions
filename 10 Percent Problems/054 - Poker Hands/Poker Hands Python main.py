@@ -1,3 +1,7 @@
+# This was a ton of fun to make. I did it all myself no outside help.
+# I did not clean it up though after it ran. Could probably be much more concise.
+# 7.16ms
+
 import handsHandler, time
 start = time.time()
 
