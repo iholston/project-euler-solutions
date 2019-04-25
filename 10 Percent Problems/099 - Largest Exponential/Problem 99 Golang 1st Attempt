@@ -26,5 +26,5 @@ func main() {
       answer = index
     }
   }
-  fmt.Println(answer, time.Since(start))
+  fmt.Println(answer + 1 /*index starts at 0*/, time.Since(start))
 }
