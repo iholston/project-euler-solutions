@@ -1,0 +1,30 @@
+// LOL 14m 21s 
+// will upload a second one with better time. This was just my first thought
+package main
+
+import ("fmt"
+        "strings"
+        "math/big"
+        "io/ioutil"
+        "strconv"
+        "time")
+
+
+func main() {
+  start := time.Now()
+  data2, _ := ioutil.ReadFile("base_exp.txt")
+  data := strings.Split(string(data2), "\n")
+  max := big.NewInt(0)
+  answer := 0
+  for index, line := range(data) {
+    if index % 10 == 0 {fmt.Println(index, line,time.Since(start))}
+    base, _ := strconv.Atoi(strings.Split(line, ",")[0])
+    exponent, _ := strconv.Atoi(strings.Split(line, ",")[1])
+    contender := new(big.Int).Exp(big.NewInt(int64(base)), big.NewInt(int64(exponent)), nil)
+    if contender.Cmp(max) == 1 {
+      max = contender
+      answer = index
+    }
+  }
+  fmt.Println(answer, time.Since(start))
+}
