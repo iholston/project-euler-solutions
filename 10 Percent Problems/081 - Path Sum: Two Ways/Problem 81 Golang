@@ -1,0 +1,44 @@
+package main
+
+import ("fmt"
+        "io/ioutil"
+        "strings"
+        "strconv"
+        "time"
+)
+
+func main() {
+  // 1 - Get matrix as arr of arr of int
+  start := time.Now()
+  data3, _ := ioutil.ReadFile("matrix.txt")
+  data2 := string(data3)
+  data := strings.Split(data2, "\n")
+  matrix := [][]int{}
+  for i := 0; i < len(data); i++ {
+    srow := strings.Split(data[i], ",")
+    irow := []int{}
+    for j := 0; j < len(srow); j++ {
+      newint, _ := strconv.Atoi(srow[j])
+      irow = append(irow, newint)
+    }
+    matrix = append(matrix, irow)
+  }
+  
+  // 2 - Sum 0,0 - 0,80 row and 0,0 - 80,0 column to initialize
+  for i := 1; i < 80; i++ {
+    matrix[0][i] += matrix[0][i-1]
+    matrix[i][0] += matrix[i-1][0]
+  }
+
+  // 3 - sum from 1,1 to 1,80 and take min between one above or to left
+  for i := 1; i < 80; i++ {
+    for j := 1; j < 80; j++ {
+      if matrix[i][j-1] > matrix[i-1][j] {
+        matrix[i][j] += matrix[i-1][j]
+      } else {
+        matrix[i][j] += matrix[i][j-1]
+      }
+    }
+  }
+  fmt.Println(matrix[79][79], time.Since(start))
+}
