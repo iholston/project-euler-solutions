@@ -1,7 +1,0 @@
-# Easy af
-
-ar = []
-x = str(2**1000)
-for i in range(len(x)):
-    ar.append(int(x[i]))
-print(sum(ar))
