@@ -1,0 +1,1 @@
+print(sum(set([num*3 for num in range(334)] + [num*5 for num in range(200)])))
