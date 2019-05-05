@@ -1,0 +1,10 @@
+# This one was trivially easy
+
+sumofsquares = 0
+squareofsums = 0
+
+for x in range(101):
+    sumofsquares += x*x
+    squareofsums += x
+
+print(squareofsums*squareofsums - sumofsquares)

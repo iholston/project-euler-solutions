@@ -1,0 +1,57 @@
+// 1.694451944s
+// a little trial and error on 1) how many primes to use as factors (if too low will not get right answer and too high makes time ^^^)
+// and 2) which numbers to check ie 646 to ? (mainly effects how long the program runs)
+
+package main
+
+import "fmt"
+import "math"
+
+// seive of erasthonese (spelling?) that i have used in every euler primes problem
+func generate() []int {
+  primelist := []bool{}
+  primes := []int{}
+  stop := 1500 // <---- if too low your answer will be wrong
+  for i := 0; i < stop; i++ {
+    primelist = append(primelist, true)
+  }
+  for i := 2; i < int(math.Ceil(math.Sqrt(float64(stop)))); i++ {
+    if primelist[i] == true {
+      for j := 0; j <= stop; j++ {
+        if i*i + j*i > stop - 1 {
+          break
+        } else {
+          primelist[i*i + j*i] = false
+        }
+      }
+    }
+  }
+  for i, val := range primelist {
+    if i == 0 || i == 1 {
+      continue
+    }
+    if val == true {
+      primes = append(primes, i)
+    }
+  }
+  return primes
+}
+
+func main() {
+  list := []int{1, 1}
+  primes := generate()
+  for i := 700; i < 200000; i++ {
+    counter := 0
+    for _, prime := range primes {
+      if i % prime == 0 {
+        counter++
+        if counter == 4 {
+          list = append(list, i)
+          if list[len(list)-1] == list[len(list)-2] + 1 && if list[len(list)-2] == list[len(list)-3] + 1 && if list[len(list)-3] == list[len(list)-4] + 1 {
+            fmt.Println(i-3)
+          }
+        }
+      }
+    }
+  }
+}

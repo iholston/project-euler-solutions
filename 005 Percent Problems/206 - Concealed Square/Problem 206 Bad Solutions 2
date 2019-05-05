@@ -1,0 +1,23 @@
+# bigO(N) i think and N is 1 billion
+# goes through all possible combinations of 1X2X... incrementing the X's by 1
+# i dont even think it works properly because math.sqrt returns some bad values and i dont know why
+
+def createnum(x):
+  num = x
+  constants = "123456789"
+  newstr = ""
+  for i in range(9 - len(str(num))):
+    newstr += "0"
+  newstr += str(num)
+  finalstring = ""
+  for i in range(9):
+    finalstring += constants[i] + newstr[i]
+  finalstring += '0'
+  return int(finalstring)
+  
+  tries = 1
+  while True:
+    if math.sqrt(createnum(tries)).is_integer():
+      print(math.sqrt(createnum(tries))
+      break
+    tries += 1

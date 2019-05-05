@@ -1,0 +1,31 @@
+// was about 3.3 seconds when x was 10000 (my initial guess). but if you start x closer to actual value (2500ish) its 175.506516ms
+package main
+
+import "fmt"
+
+func generatePerms(x int) (map[int]bool, []int) {
+  m := make(map[int]bool)
+  n := []int{}
+  for i := 1; i <= x; i++ {
+    perm := (i*(3*i-1))/2
+    m[perm] = true
+    n = append(n, perm)
+  }
+  return m, n
+}
+
+func main() {
+  x := 2500
+  permMap, perms := generatePerms(x)
+  for i := 0; i < x; i++ {
+    for j, perm := range perms {
+      if j < i {continue}
+      if permMap[perms[i] + perm] {
+        if permMap[perms[i] - perm] || permMap[perm - perms[i]] {
+          fmt.Println(perm-perms[i])
+          break
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+package main
+import "fmt"
+
+// Returns the next a, b with b always being prime
+var a = -1000
+var b = 0
+var bcounter = 0
+func get(primes []int) (int, int) {
+	if bcounter == 167 {
+		bcounter = 0
+		a += 1
+	}
+	b = primes[bcounter]
+	bcounter += 1
+	return a, b
+}
+
+// Builds out the primes, I copied my python euler problem 10 seive of E code lines 14-24 and made it golang
+func seiveOfEratosthenes() []int {
+	primelist := []bool{}
+	primes := []int{}
+	for i := 0; i < 1000; i++ {
+	primelist = append(primelist, true)
+	}
+	for i := 2; i < 32/*sqrt1000*/; i++ {
+		if primelist[i] == true {
+			for j := 0; j <= 1000; j++ {
+				if i*i +j*i > 999 {
+					break
+				} else {
+					primelist[i*i + j*i] = false
+				}
+			}
+		}
+	}
+	for i, val := range primelist {
+		if i == 0 || i == 1 {
+			continue
+		}
+		if val == true {
+			primes = append(primes, i)
+		}
+	}
+	return primes
+}
+
+// Checks if the number is a prime under 1000
+func isPrime(x int, primes []int) bool {
+	for _, prime := range(primes) {
+		if prime == x {
+			return true
+		}
+	}
+	return false
+}
+
+// Counts the number of consecutive primes a, b, n produce as quadratics and returns that number
+func quadprimes(a int, b int, primes []int) int {
+	n := 0
+	primetotal := 0 
+	var num int
+	for {
+		num = n*n + a*n + b
+		if isPrime(num, primes) {
+			primetotal += 1
+			n += 1
+		} else {
+			break
+		}
+	}	
+	return primetotal
+}
+
+
+func main() {
+	maxlength := 0
+	maxproduct := 0
+	primes := seiveOfEratosthenes()
+	for {
+		a, b := get(primes)
+		length := quadprimes(a, b, primes)
+		if length > maxlength {
+			maxlength = length
+			maxproduct = a*b
+		}
+		if a == 1000 {
+			break
+		}
+	}
+	fmt.Println(maxproduct)
+	
+}

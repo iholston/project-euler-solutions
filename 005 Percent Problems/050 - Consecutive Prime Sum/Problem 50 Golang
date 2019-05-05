@@ -1,0 +1,58 @@
+// 128.572158ms
+// This tries starting after 1-5st primes because starting at 1 produces 500+ consecutive prime contender
+// with this in mind you can only start so high up (probably within the first 20 primes) before you break the sub 1mil rule
+package main
+import "fmt"
+// seive of erasthonese (spelling?) that i have used in every euler primes problem
+func generate() []int {
+  primelist := []bool{}
+  primes := []int{}
+  stop := 1000000
+  for i := 0; i < stop; i++ {
+    primelist = append(primelist, true)
+  }
+  for i := 2; i < 1000; i++ {
+    if primelist[i] == true {
+      for j := 0; j <= stop; j++ {
+        if i*i + j*i > stop - 1 {
+          break
+        } else {
+          primelist[i*i + j*i] = false
+        }
+      }
+    }
+  }
+  for i, val := range primelist {
+    if i == 0 || i == 1 {
+      continue
+    }
+    if val == true {
+      primes = append(primes, i)
+    }
+  }
+  return primes
+}
+
+func main() {
+  newmax := 0
+  pmap := map[int]bool{}
+  primes := generate()
+  for _, prime := range primes {
+    pmap[prime] = true
+  }
+  for j := 0; j < 5; j++ { <-- this starts at the next prime up ie prime[0] next one next etc.. i guessed 5, but realistically an guess under 20 would make sense
+    runningtotal := 0
+    for i, prime := range primes {
+      if i < j {
+        continue
+      }
+      runningtotal += prime
+      if pmap[runningtotal] {
+        if runningtotal > newmax {
+          newmax = runningtotal
+        }
+      }
+    }
+  }
+  fmt.Println(newmax)
+}

@@ -1,0 +1,23 @@
+# 296 ms
+# really proud of this function (i just tried to replicate the math and it worked)
+
+def numisbigger(x):
+  num = 1
+  den = 2
+  for i in reversed(range(x + 1)):
+    if i == 1: # this is the 1 + num/den part
+      num = den + num # den stays same
+      break
+    temp = den
+    den = den * 2 + num # 1/(2 + num/den) makes den equal this
+    num = temp # again 1/(2 + num/den) makes the num equal the den
+  if len(str(num)) > len(str(den)):
+    return True
+  return False
+
+# main
+counter = 0
+for i in range(1000):
+  if numisbigger(i)
+    counter += 1
+print(counter)

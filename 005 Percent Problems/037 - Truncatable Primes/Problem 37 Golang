@@ -1,0 +1,88 @@
+package main
+
+import ("fmt"
+        "math"
+        "strconv"
+        )
+
+func sOE(stop int) []int {
+    primelist := []bool{}
+    primes := []int{}
+    for i := 0; i < stop; i++ {
+        primelist = append(primelist, true)
+    }
+    for i := 2; i < int(math.Ceil(math.Sqrt(float64(stop)))); i++ {
+        if primelist[i] == true {
+            for j := 0; j <= stop; j++ {
+                if i*i + j*i > stop - 1 {
+                    break
+                } else {
+                    primelist [i*i + j*i] = false
+                }
+            }
+        }
+    }
+    for i, val := range primelist {
+        if i == 0 || i == 1 {
+            continue
+        }
+        if val == true {
+            primes = append(primes, i)
+        }
+    }
+    return primes
+}
+
+func isPrime(x int, primes []int) bool {
+    if x == 1 {
+        return false
+    }
+    for _, prime := range primes {
+        if prime == x {
+            return true
+        }
+        if prime > x {
+            return false
+        }
+    }
+    return false
+}
+
+func getTs(x int) []int {
+    truncs := []int{}
+    sint := strconv.Itoa(x)
+    sints := []string{}
+    for i := 1; i < len(sint); i++ {
+        j := len(sint) - i
+        sints = append(sints, sint[:j])
+        sints = append(sints, sint[i:])
+    }
+    for _, snum := range sints {
+        inum, _ := strconv.Atoi(snum)
+        truncs = append(truncs, inum)
+    }
+    return truncs
+}
+
+func main() {
+   primes := sOE(1000000)
+   Tprimes := 0
+   for _, prime := range primes {
+       numbers := getTs(prime)
+       t := true
+       for _, num := range numbers {
+           if isPrime(num, primes) {
+               continue
+           } else {
+               t = false
+               break
+           }
+       }
+       if t {
+           if len(strconv.Itoa(prime)) > 1 {
+               Tprimes += prime
+           }
+       }
+   }
+   fmt.Println(Tprimes)
+}

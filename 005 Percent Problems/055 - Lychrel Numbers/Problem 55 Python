@@ -1,0 +1,24 @@
+# python makes things so easy
+# 218ms
+
+def reverse(x):
+  return int(str(x)[::-1])
+
+def islychrel(x, y):
+  num = x + y
+  count = 1
+  while 1==1:
+    count += 1
+    if str(num) == str(reverse(num)): # palindrome check
+      return False
+    else:
+      if count == 50:
+        return True
+      num = num + reverse(num)
+      
+# main
+counter = 0
+for i in range(10000):
+  if islychrel(i, reverse(i)):
+    counter += 1
+print(counter)

@@ -1,0 +1,20 @@
+# Again not trying to be efficient
+notdone = True
+primes = []
+number = 1
+primetofind = 10001
+
+while notdone:
+    for x in range(2, number):
+        if number % x == 0:
+            break
+        else:
+            if x == number - 1:
+                primes.append(number)
+                break
+            continue
+    number += 1 
+    if len(primes) == primetofind - 1:
+        notdone = False
+
+print(primes[primetofind - 2])

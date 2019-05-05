@@ -1,0 +1,11 @@
+# 3.52 ms
+# easy
+
+counter = 0
+for i in range(1, 10): # 10^1 is 10 which is greater than 1 which means there are none after 10...
+  for j in range(1, 100): # hundred was an arbitrary guess
+    if len(str(i**j)) > j:
+      break
+    if len(str(i**j)) == j:
+      counter += 1
+print(counter)

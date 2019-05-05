@@ -1,0 +1,76 @@
+// easy 
+// a hwaping 1.0005ms
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+	"time"
+)
+
+func genTnums(x int) []int {
+	tnums := []int{}
+	for i := 1; i <= x; i++ {
+		tnum := (i*(i+1))/2
+		tnums = append(tnums, tnum)
+	}
+	return tnums
+}
+func istnum(x int, tnums []int) bool {
+	for _, num := range tnums {
+		if x == num {
+			return true
+		}
+	}
+	return false
+}
+
+func main() {
+	x := 30
+	tnums := genTnums(x)
+	total := 0
+	tmap := map[string]int {
+		"A": 1,
+		"B": 2,
+		"C": 3,
+		"D": 4,
+		"E": 5,
+		"F": 6,
+		"G": 7,
+		"H": 8,
+		"I": 9,
+		"J": 10,
+		"K": 11,
+		"L": 12,
+		"M": 13,
+		"N": 14,
+		"O": 15,
+		"P": 16,
+		"Q": 17,
+		"R": 18,
+		"S": 19,
+		"T": 20,
+		"U": 21,
+		"V": 22,
+		"W": 23,
+		"X": 24,
+		"Y": 25,
+		"Z": 26,
+	}
+	dat, _ := ioutil.ReadFile("words.txt")
+	word := string(dat)
+	word = strings.Replace(word, "\"", "", -1)
+	words := strings.Split(word, ",")
+	for i := 0; i < len(words); i++ {
+		wordVal := 0
+		for j := 0; j < len(words[i]); j++ {
+			wordVal += tmap[string(words[i][j])]
+		}
+		if istnum(wordVal, tnums) {
+			total++
+		}
+	}
+	fmt.Println(total)
+}
+

@@ -1,0 +1,63 @@
+// Most people on the thread did a math solution, i wanted to just code so this builds the spiral and counts
+// Better than this would be not populating the array at all but rather just adding the numbers at the diagonals
+// to sumdiag from the start. Making step2 and the entire m[][] array irrelivant the for loops terminations would just 
+// be added to sumdiags. Eventually it wouldnt even be a for loop, just small loop subtracting smaller 1001's from 1002001 
+// and recording in sumdiags the sums of those numbers 
+
+package main
+
+import "fmt"
+
+var biggiecheese = 1002002 
+var counter = 0
+func getNext() int {
+    counter += 1
+    return biggiecheese - counter
+}
+
+func main() {
+    // Setup
+    m := [1001][1001]int{}
+    sumdiags := 0
+    wall1 := 0
+    wall2 := 0
+    wall3 := 0
+    wall4 := 0
+    x := 0
+    y := 0
+    
+    // Step 1: Populate array outside in
+    for a := 0; a <= 501 ; a++ {
+        for b := 1000 - wall4; b >= 0 + wall2; b-- {
+            y = b
+            m[x][y] = getNext()
+        }
+        wall1 += 1
+        for c := 0 + wall1; c <= 1000 - wall3; c++ {
+            x = c
+            m[x][y] = getNext()
+        }
+        wall2 += 1
+        for d := 0 + wall2; d <= 1000 - wall4; d ++ {
+            y = d
+            m[x][y] = getNext()
+        }
+        wall3 += 1
+        for e := 1000 - wall3; e >= 0 + wall1; e-- {
+            x = e
+            m[x][y] = getNext()
+        }
+        wall4 += 1
+    } 
+    
+    // Step 2: Sum array diagonals and return
+    for f := 0; f < 1001; f++ {
+        sumdiags += m[f][f]
+    }
+    g := 0
+    for h := 1000; h >= 0; h-- {
+        sumdiags += m[g][h]
+        g += 1
+    }
+    fmt.Println(sumdiags - 1) // 1 is counted twice
+}

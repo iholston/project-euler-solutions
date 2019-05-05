@@ -1,0 +1,19 @@
+// This problem I did not know how to do. Nor was I interested in figuring out. This implementation is from
+// https://www.xarg.org/puzzle/project-euler/problem-31. There are too many fun problems for me to waste too much time
+// and my OCD won't let me have 31 be the only one I don't solve out of the first fifty on that Progress page...
+
+package main
+
+import "fmt"
+
+func main() {
+  coins := [8]int{1, 2, 5, 10, 20, 50, 100, 200}
+  table := [201]int{}
+  table[0] = 1
+  for i := 0; i < len(coins); i++ {
+    for j := coins[i]; j <= 200; j++ {
+      table[j] += table[j - coins[i]]
+    }
+  }
+  fmt.Println(table[200])
+}

@@ -1,0 +1,103 @@
+// Easy
+
+package main
+
+import ("fmt"
+        "math"
+        "strconv"
+        "strings"
+)
+
+// This function is from my earlier primes problem solutions
+// Slightly modified with a stop value. Finds all primes up to that number.
+func seiveOfEratosthenes(stop int) []int {
+    primelist := []bool{}
+    primes := []int{}
+    for i := 0; i < stop; i++ {
+        primelist = append(primelist, true)
+    }
+    for i := 2; i < int(math.Ceil(math.Sqrt(float64(stop)))); i++ { // research seive. Only need up to sqrt
+        if primelist[i] == true {
+            for j := 0; j <= stop; j++ {
+                if i*i + j*i > stop - 1 {
+                    break
+                } else {
+                    primelist[i*i + j*i] = false
+                }
+            }
+        }
+    }
+    for i, val := range primelist {
+        if i == 0 || i == 1 {
+            continue
+        }
+        if val == true {
+            primes = append(primes, i)
+        }
+    }
+    return primes
+}
+
+func isPrime(x int, primes []int) bool {
+    if x == 1 {
+        return false
+    }
+    for _, prime := range primes {
+        if prime == x {
+            return true
+        }
+        if prime > x { // saves from going through the rest of the primes
+            return false
+        }
+    }
+    return false
+}
+
+func variations(i int) []int {
+    variation := []int{}
+    if len(strconv.Itoa(i)) == 1 {
+        variation = append(variation, i)
+        return variation
+    }
+    stringnum := strconv.Itoa(i)
+    splitter := strings.Split(stringnum, "")
+    for i := 0; i < len(stringnum); i++ {
+        splitter = append(splitter, splitter[i])
+    }
+    number := []string{}
+    for i := 0; i < len(stringnum); i++ {
+        for j := i; j < len(stringnum) + i; j++ {
+            number = append(number, splitter[j])
+        }
+    }
+    index := 0
+    for i := 0; i < len(stringnum); i++ {
+        num := ""
+        for j := index; j < len(stringnum) + index; j++ {
+            num += number[j]
+        }
+        index += len(stringnum)
+        intnum, _ := strconv.Atoi(num)
+        variation = append(variation, intnum)
+    }
+    return variation
+}
+
+func main() {
+    circularprimes := 0
+    primes := seiveOfEratosthenes(1000000)
+    for i := 2; i < 1000000; i++ {
+        variation := variations(i)
+        circular := true 
+        for _, circ := range variation {
+            if !isPrime(circ, primes) {
+                circular = false
+                break
+            }
+        }
+        if circular {
+            circularprimes++
+        }
+    }
+    fmt.Println(circularprimes)
+}
