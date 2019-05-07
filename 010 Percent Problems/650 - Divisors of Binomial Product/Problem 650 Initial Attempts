@@ -1,0 +1,104 @@
+// Modulo Operation Equivalences on wikipedia really speed this puppy up
+// Might take a couple years to run idk never let it run past 20 minutes lol
+package main
+
+import ("fmt"
+        "time"
+        "math/big"
+        "strings"
+)
+
+// Globals cuz whocares
+var start = time.Now()
+var modnum = 1000000007
+
+// Use wikipedia algorithm for calculating numbers on pascal row. Can make faster by going to half row
+func multedpascalrow(row int) *big.Int {
+  lastelement := big.NewFloat(float64(1))
+  maxproduct := big.NewFloat(float64(1))
+  for rowelement := 1; rowelement <= row; rowelement++ {
+    // The next two lines are the algorithm for creating the rowelement of the pascal row
+    if rowelement == 1 {lastelement = big.NewFloat(float64(1))} 
+    lastelement.Mul(lastelement, big.NewFloat(float64(row + 1 - rowelement)/float64(rowelement))) 
+    maxproduct.Mul(maxproduct, lastelement)
+  }
+  max, _ := maxproduct.Int(nil)
+  return max
+}
+
+// Takes a number and gets the primefactors of the number
+func findsumdivisors(num *big.Int) *big.Int {
+  // Variables
+  number := new(big.Int).Set(num)
+  two := big.NewInt(int64(2)) // for readability
+  three := big.NewInt(int64(3))
+  zero := big.NewInt(int64(0))
+  primefacts := []*big.Int{} 
+
+  if num.Cmp(zero) == 0 {return zero}
+
+  // Get the number of 2s that divide number
+  for new(big.Int).Mod(number, two).Cmp(zero) == 0 { // while number % 2 == 0
+    primefacts = append(primefacts, new(big.Int).Set(two))
+    number.Div(number, two)
+  }
+
+  // Check for other primes in the number
+  counter := new(big.Int).Set(three)
+  for new(big.Int).Mul(counter, counter).Cmp(number) == -1 || new(big.Int).Mul(counter, counter).Cmp(number) == 0 { // while i*i <= n, the || is for < OR =
+    for new(big.Int).Mod(number, counter).Cmp(zero) == 0 { // while number%counter == 0
+      primefacts = append(primefacts, new(big.Int).Set(counter))
+      number.Div(number, counter)
+    }
+    counter.Add(counter, two)
+  }
+
+  // If number at this point is still larger than 2 append the bad boy, its prime
+  if number.Cmp(two) == 1 { /*if num > 2*/ primefacts = append(primefacts, number)}
+  // Get list of uniq primes in primefactors for the algo below
+  uniqmaker := make(map[string]bool)
+  uniqprimes := []*big.Int{}
+  for _, entry := range primefacts {
+    if _, value := uniqmaker[entry.String()]; !value {
+      uniqmaker[entry.String()] = true
+      uniqprimes = append(uniqprimes, new(big.Int).Set(entry))
+    } 
+  }
+
+  // For each uniq prime sumfacts = sumfacts * ((int(math.Pow(float64(key),float64(value + 1)))-1)/(key-1))
+  sumfacts := big.NewInt(int64(1))
+  for _, prime := range uniqprimes {
+    numerator := new(big.Int).Exp(prime, countplus1(prime, primefacts), nil)
+    numerator.Sub(numerator, big.NewInt(int64(1)))
+    denominator := new(big.Int).Set(new(big.Int).Sub(prime, big.NewInt(int64(1))))
+    sumfacts.Mul(sumfacts, new(big.Int).Div(numerator, denominator))
+  }
+  sumfacts.Mod(sumfacts, big.NewInt(int64(1000000007)))
+  return sumfacts
+}
+
+// Helpfunc
+func countplus1(prime *big.Int, primes []*big.Int) *big.Int {
+  count := big.NewInt(int64(0))
+  for _, number := range primes {
+    if strings.Compare(prime.String(), number.String()) == 0 {
+      count.Add(count, big.NewInt(int64(1)))
+    }
+  }
+  return count.Add(count, big.NewInt(int64(1)))
+}
+
+
+// Should be this simple
+func main() {
+  fmt.Println(multedpascalrow(2000))
+  /*
+  bigsum := big.NewInt(int64(0))
+  for i := 1; i <=10; i++ {
+    num2sum := multedpascalrow(i)
+    sumdivisors := findsumdivisors(num2sum)
+    bigsum.Add(bigsum, sumdivisors) 
+    bigsum.Mod(bigsum,big.NewInt(int64(1000000007)))
+  }
+  fmt.Println(bigsum, time.Since(start))*/
+}
