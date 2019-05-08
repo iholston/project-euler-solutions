@@ -1,0 +1,150 @@
+// Literally have no clue how to make this run in 1 minute.
+// Gets right answer in 29m33.176s
+
+package main
+
+import "fmt"
+import "math/big"
+import "time"
+import "sync"
+
+//http://goatleaps.xyz/euler.maths.Project-Euler-650.html
+//factor(B(n)) = factor(B(n-1))+factor^n(n)-factor(n!)
+
+// Returns the prime factors of x in a map 
+func primefactors(x int) map[string]int {
+	// Variables
+	moddy := big.NewInt(1000000007)
+	number := big.NewInt(int64(x))
+	two := big.NewInt(2)
+	three := big.NewInt(3)
+	zero := big.NewInt(0)
+	primefacts := []*big.Int{}
+	if number.Cmp(zero) == 0 {return map[string]int{}}
+
+	// Get the number of 2s that divide number
+	for new(big.Int).Mod(number, two).Cmp(zero) == 0 {
+		primefacts = append(primefacts, new(big.Int).Set(two))
+		number.Div(number,two)
+	}
+
+	// Check for other primes in the number
+	counter := new(big.Int).Set(three)
+	for new(big.Int).Mul(counter, counter).Cmp(number) == -1 || new(big.Int).Mul(counter, counter).Cmp(number) == 0 { // while i*i <= n, the || is for < OR =
+		for new(big.Int).Mod(number, counter).Cmp(zero) == 0 {
+			appendder := new(big.Int).Set(counter)
+			appendder.Mod(appendder, moddy)
+			primefacts = append(primefacts, appendder)
+			number.Div(number, counter)
+		}
+		counter.Add(counter, two)
+	}
+
+	// if nukber at this point is still larger than 2 append the bad boy, its prime
+	if number.Cmp(two) == 1 { /*if num > 28*/ primefacts = append(primefacts, number.Mod(number, moddy))}
+
+	// Create the map format to return
+	primemap := map[string]int{}
+	uniqmaker := make(map[string]bool)
+	for _, entry := range primefacts {
+		if _, value := uniqmaker[entry.String()]; !value {
+			uniqmaker[entry.String()] = true
+			primemap[entry.String()] = 0
+		}
+		primemap[entry.String()]++
+	}
+	return primemap
+}
+
+// is factor^n(n)
+func timesN(p map[string]int, multiplier int) map[string]int {
+	for key, value := range p {p[key] = value*multiplier}
+	return p
+}
+
+// is factor(n!)
+var masterdict = map[string]int{}
+func factorialprime(x int) map[string]int {
+	if x == 1 || x == 0 {return map[string]int{"1":1}}
+	masterdict = combine(primefactors(x), masterdict, map[string]int{"skip":0})
+	return masterdict
+}
+
+// gets the sum of divisors from the primefactors and returns a regular int mod 1000000007
+// This function is what makes the whole processes extremely slow.
+// Without this function running, the process takes about 20 seconds...
+func sum(primes map[string]int, out chan<- int, wg *sync.WaitGroup) {
+	//o(p^a) = (p^(a+1) - 1)/(p-1)
+	defer wg.Done()
+	one := big.NewInt(1)
+	sumfacts := big.NewInt(1)
+	moddy := big.NewInt(1000000007)
+	for stringprime, count := range primes {
+		if count == 0 {continue}
+		prime, _ := new(big.Int).SetString(stringprime, 10) // using big.Int
+		prime.Mod(prime, moddy)
+		numerator := new(big.Int).Exp(prime, big.NewInt(int64(count+1)), nil) // p^(a+1)
+		numerator.Sub(numerator, one)
+		denominator := new(big.Int).Set(new(big.Int).Sub(prime, one)) //p-1
+		denominator.Mod(denominator, moddy)
+		sumfacts.Mul(sumfacts, new(big.Int).Div(numerator, denominator))
+		sumfacts.Mod(sumfacts, moddy)
+	}
+	out <- int(sumfacts.Uint64())
+}
+
+// adds param 1 and 2 and subtracts param 3
+func combine(od map[string]int, pA map[string]int, pS map[string]int) map[string]int {
+	for key, value := range pA {
+		if _, exist := od[key]; !exist {od[key] = 0}
+		od[key] = od[key] + value
+	}
+	if _, skip := pS["skip"]; skip {return od}
+	for key, value := range pS {
+		if _, exist := od[key]; !exist {fmt.Println("EROORORORRO", key, value)}
+		if od[key] - value > 0 {
+			od[key] = od[key] - value
+		} else {
+			od[key] = value - od[key]
+		}
+	}
+	return od
+}
+
+// Implemented go routines. some memoization maybe is what is needed instead, but i dont  know how to implement it here.
+var answer = 0
+func answerhandler(in <-chan int) {
+	for i := 0; i < 20000; i++ {
+		select {
+		case msg := <-in:
+			answer += msg
+			answer = answer % 1000000007
+		}
+	}
+}
+
+// Oof
+func main() {
+	// Vars
+	start := time.Now()
+	mappy := map[string]int{"1":1} // dicitionary of primes making up the last one
+	chans := make(chan int, 100)
+	var wg sync.WaitGroup
+	wg.Add(20000)
+	go answerhandler(chans)
+
+	// Main
+	for i := 1; i <= 20000; i++ {
+		if i % 1000 == 0 {fmt.Println(i, time.Since(start))}
+		mappy = combine(mappy, timesN(primefactors(i), i), factorialprime(i))
+		newmap := map[string]int{}
+		for k, v := range mappy {
+			newmap[k] = v
+		}
+		go sum(newmap, chans, &wg)
+	}
+	wg.Wait()
+	time.Sleep(3*time.Second)
+	fmt.Println("Please email isaac.holston@mda.mil the line below:")
+	fmt.Println(answer, time.Since(start))
+}
