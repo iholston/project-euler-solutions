@@ -1,0 +1,24 @@
+// Yea so https://www.mathblog.dk/project-euler-76-one-hundred-sum-integers/
+// I hate these problems, this is the same as problem 31. combinations-esq problems are a no go
+// I understood his explaination of 31. I understand how this works, but i completely copied the code
+// Again, this is one of the few problems I straight "cheated" by copy pasting someone else's code
+// 539.21us
+
+package main
+
+import "fmt"
+import "time"
+
+func main() {
+  start := time.Now()
+  target := 100
+  ways := map[int]int{}
+  ways[0] = 1
+
+  for i:=1; i <= 99; i++ {
+    for j := i; j <= target; j++ {
+      ways[j] += ways[j-i]
+    }
+  }
+  fmt.Println(ways[100], time.Since(start))
+}
