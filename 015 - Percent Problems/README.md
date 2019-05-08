@@ -1,4 +1,4 @@
-# The list of 15% Problems as of May 2019
+# The list of 15% problems as of May 2019
 51  
 62  
 65  
