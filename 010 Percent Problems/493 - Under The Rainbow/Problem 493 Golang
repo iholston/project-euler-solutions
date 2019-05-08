@@ -1,0 +1,25 @@
+// https://euler.stephan-brumme.com/493/ says that 7 x (1 - (60 choose 20)/(70 choose 20)) is the problem
+// i literally hate combinations problems lol so I just mindlessly implemented this ^^^
+
+package main
+
+import "fmt"
+import "math/big"
+import "time"
+
+
+func f(x int) *big.Float {
+  num := big.NewFloat(float64(x))
+  for i := x - 1; i > 0; i-- {
+    num.Mul(num, big.NewFloat(float64(i)))
+  }
+  return num
+} 
+
+func main() {
+  start := time.Now()
+  c6020 := new(big.Float).Quo(f(60), new(big.Float).Mul(f(20), f(40)))
+  c7020 := new(big.Float).Quo(f(70), new(big.Float).Mul(f(20), f(50)))
+  ans := new(big.Float).Mul(big.NewFloat(float64(7)), new(big.Float).Sub(big.NewFloat(float64(1)), new(big.Float).Quo(c6020, c7020)))
+  fmt.Println(ans.String()[:11], time.Since(start))
+}
