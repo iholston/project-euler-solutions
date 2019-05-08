@@ -1,0 +1,88 @@
+// This one was fun. The algorithm is pretty cool. Had to check https://euler.stephan-brumme.com/387/ to find this algorithm
+// The implementation was entirely my own (ie. i ddnt just translate c++ to golang). I just needed to figure out how to go
+// about the problem
+// 29.695ms
+
+package main
+
+import "fmt"
+import "math/big"
+import "time"
+
+// checks if x is divisible by the sum of its digits. divisible by sum of digits
+func divsumdig(x int64) bool {
+  temp := x
+  sumodigits := int64(0)
+
+  // Get sum of digits
+  for temp != 0 {
+    sumodigits += temp % int64(10)
+    temp = temp / int64(10)
+  }
+
+  // check if number is divisible by sum of its digits. Only need to check on 
+  // iteration because only numbers based on harshad numbers will come through this function
+  if x % sumodigits == 0 {return true} 
+  return false
+}
+
+
+// Builds all harshads of the next total digit length. if the param has 3 digit harshads it will return all four digit harshads
+func harshadbuilder(harshads []int64) []int64 {
+  bases := []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+  nextharshads := []int64{}
+  for _, num := range harshads {
+    // Append each base to the number in the harshad, check if it creates a new harshad, and if so append to harshads
+    for _, base := range bases {if divsumdig(num*10+base) {nextharshads = append(nextharshads, (num*10+base))}}
+  }
+  return nextharshads
+}
+
+
+// looks for strong harshads then appends 1, 3, 7, 9 to that number and checks if those are prime
+// adds to sum in main if they are prime
+func findstrongs(harshads []int64, sum *int64) {
+  // used to check for primes once strong harshad is found
+  primers := []int64{1, 3, 7, 9}
+
+  for _, num := range harshads {
+
+    // Get sum of digits
+    sumodigits := int64(0)
+    temp := num
+    for temp != 0 {
+      sumodigits += temp % int64(10)
+      temp = temp / int64(10)
+    }
+
+    // if dividing by sumodigits is a prime, the harshad is a s,rt harshad. Check if there are primes
+    if big.NewInt(num / sumodigits).ProbablyPrime(2) {
+      for _, primer := range primers {
+        if big.NewInt(num*10+primer).ProbablyPrime(2) {
+          *sum += num*10+primer
+        }
+      }
+    }
+  }
+}
+
+
+func main() {
+  // Varibales
+  start := time.Now()
+  // when looking for less than 10^14 you need up to 13 digit numbers.
+  // digitmaxlength is max length for the harshads, so the prime numbers will be 13 digits
+  digitmaxlength := 12 
+  sum := int64(0) 
+
+  harshads := []int64{1, 2, 3, 4, 5, 6, 7, 8, 9}
+  for i := 0; i < digitmaxlength; i++ {
+
+    // Builds out all harshads of length harshad.length + 1
+    harshads = harshadbuilder(harshads) 
+
+    // Goes through current list of harshads and looks for strongs, adds to sum
+    findstrongs(harshads, &sum)
+  }
+  fmt.Println(sum, time.Since(start))
+}
