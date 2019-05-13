@@ -1,0 +1,33 @@
+# quick, easy
+# runs in 11.86s
+
+import time
+start = time.time()
+
+def increasing(x):
+  last = 0
+  for num in list(str(x)):
+    if int(num) >= last:
+      last = int(num)
+    else:
+      return False
+  return True
+
+def decreasing(x):
+  last = 10 
+  for num in list(str(x)):
+    if int(num) <= last:
+      last = int(num)
+    else:
+      return False
+  return True
+
+counter = 99
+bouncy = 0
+while True:
+  if float(bouncy) / float(counter) == .99: 
+    print(counter, time.time()-start)
+    break
+  counter += 1
+  if increasing(counter) or decreasing(counter): continue
+  bouncy += 1
