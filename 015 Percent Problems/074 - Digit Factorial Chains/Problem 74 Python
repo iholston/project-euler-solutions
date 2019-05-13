@@ -1,0 +1,41 @@
+# another quick and easy one. though someone probably has it running in like 1 second lol
+# runs in 54.7s
+
+import time, math
+start = time.time()
+
+# has a dictionary of numbers already factorialized to speed things up
+# otherwise factorials each number of the number and sums it, adds to dictionary,
+# and returns
+dic = {"145":145}
+def factorialsum(nums):
+  total = 0
+  nums.sort()
+  full = ''.join(nums)
+  if full in dic:
+    return dic[full]
+  for num in nums:
+    total += math.factorial(int(num))
+  dic[full] = total
+  return total
+
+# gets the length of the chain, returns int
+def chainlength(x):
+  individualnumbers = list(str(x))
+  uniq = {x}
+  special = {}
+  for i in range(59): # 59 cuz x is already added to uniq and problem gave us "axiom"
+    num = factorialsum(individualnumbers)
+    if num in uniq:
+      return False
+    uniq.add(num)
+    individualnumbers = list(str(num))
+  return True
+
+# driver code
+counter = 0
+for i in range(69, 1000000):
+  if i % 10000 == 0: print(i, counter)
+  if chainlength(i):
+    counter += 1
+print(counter, time.time()-start)
