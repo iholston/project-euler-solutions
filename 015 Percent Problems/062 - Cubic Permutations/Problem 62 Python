@@ -1,0 +1,22 @@
+# Fun and quick to solve. Was easier than a lot of the 10% probs.
+# runs in 2.96s
+
+# Get each cube number between 1000^3 and 10000^3 (arbitrarily picked)
+liss = []
+# Sort each number "alphabetically" as a string ie 321 -> 123 and store in liss
+for i in range(1000, 10000):
+  c = sorted(str(i*i*i))
+  d = ''.join(c)
+  liss.append(d)
+
+# for each string in liss check through the list again for 5 string matches the index
+# of the string (+1000 because we the list starts with 1000 cubed) will be the cube root
+for idx, val in enumerate(liss):
+  counter = 0
+  for val2 in liss:
+    if val == val2:
+      counter+=1
+  if counter == 5: 
+    index = idx + 1000 # look at line 8
+    print(index*index*index)
+    break
