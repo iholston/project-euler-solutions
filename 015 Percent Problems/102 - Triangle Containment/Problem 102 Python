@@ -1,0 +1,58 @@
+# fun and easy. 10% problems seemed harder to me so far (only done 3 15s at this point)
+# algo from here: http://blackpawn.com/texts/pointinpoly/
+# runs in .00795s
+import time
+
+start = time.time()
+# read file
+data = open('p102_triangles.txt', 'r').read().replace('\n', ',').split(",")
+
+
+# takes two points and returns a vector <i, j, k> with k always being 0
+# we dont actually need the k though
+def vector(x, y):
+  return [y[0] - x[0], y[1] - x[1], 0]
+
+
+# cross products the vectors both ways ab x ac and ac x ab
+# then checks if the ab x a0 and ac x a0 point the same direction respectively
+# otherwise false. again check link in top for easy description why
+def crossproduct(vAB, vAC, vA0):
+
+  # cross product of a = <a1, a2, a3> and b = <b1, b2, b3> formula: a x b = <a2b3 - a3b2, a3b1 -a1b3, a1b2 - a2b1>
+  # all we care about is the k field: a1b2 - a2b1
+  # if crossABAC and crossAB00 k field are both positive (or both negative) (going into the page or out of the page)
+  # then both point AC and point 00 or AB and 00 are on the same side of the line 
+  # refer to link at top for details
+  crossABAC = vAB[0]*vAC[1] - vAB[1]*vAC[0]
+  crossAB00 = vAB[0]*vA0[1] - vAB[1]*vA0[0] # vector from AB to origin
+
+  crossACAB = vAC[0]*vAB[1] - vAC[1]*vAB[0]
+  crossAC00 = vAC[0]*vA0[1] - vAC[1]*vA0[0]
+
+  # If they are both positive or both negative AND both positive or both negative return true, otherwise its false
+  if crossABAC > 0 and crossAB00 > 0:
+    if crossACAB > 0 and crossAC00 > 0:
+      return True
+    elif crossACAB < 0 and crossAC00 < 0:
+        return True
+  elif crossABAC < 0 and crossAB00 < 0:
+    if crossACAB > 0 and crossAC00 > 0:
+      return True
+    elif crossACAB < 0 and crossAC00 < 0:
+      return True
+  return False
+
+# driver code
+counter = 0
+for i in range(0, 6000, 6):
+  A = [int(data[i]), int(data[i+1])]
+  B = [int(data[i+2]), int(data[i+3])]
+  C = [int(data[i+4]), int(data[i+5])]
+
+  if crossproduct(vector(A,B), vector(A, C), vector(A, [0,0])):
+    if crossproduct(vector(B,A), vector(B, C), vector(B, [0,0])):
+      if crossproduct(vector(C, A), vector(C, B), vector(C, [0,0])):
+        counter += 1
+
+print(counter, time.time()-start)
